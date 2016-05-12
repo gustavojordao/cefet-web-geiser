@@ -1,5 +1,7 @@
 var fs = require('fs');
 
+var _ = require('underscore');
+
 var express = require('express'),
     app = express();
 
@@ -30,18 +32,81 @@ var db = {
 };
 
 fs.readFile('server/data/jogadores.json',
-	function(data){
-		db = JSON.parse(data);
+	function(err, data){				
+		db[0] = JSON.parse(data);
+	}
+);
+
+fs.readFile('server/data/jogosPorJogador.json',
+	function(err, data){				
+		db[1] = JSON.parse(data);
 	}
 );
 
 app.get('/', 
 	function(request, response){
-		response.render('index.hbs', db);
+		response.render('index.hbs', db[0]);
 	}
 );
 
+app.get('/jogador/:numero_identificador', 
+	function(request, response){
+		var id = request.params.numero_identificador;
 
+		var jogosJogador = db[1][id];
+		
+		var i=0;		
+
+		var jogadores = db[0].players;
+
+		var jogador;
+
+		var naoJogados = 0;
+		var favorito;
+		var maisJogados;
+
+		for(i=0; i<jogadores.length; i++){
+			if(jogadores[i].steamid == id){
+				jogador = jogadores[i];
+			}
+		}
+
+			
+
+		for(i=0; i<jogosJogador.games.length; i++){
+			jogosJogador.games[i].playtime_forever_h = (jogosJogador.games[i].playtime_forever/60).toFixed();
+			if(jogosJogador.games[i].playtime_forever == 0){
+				naoJogados++;
+			}
+
+			if(!favorito){
+				favorito = i;
+			}
+			else if(jogosJogador.games[i].playtime_forever > jogosJogador.games[favorito].playtime_forever){
+				favorito = i;
+			}
+			
+		}
+
+		jogosJogador.never_played = naoJogados;
+		jogosJogador.favorite = jogosJogador.games[favorito];
+
+		maisJogados = _.first(_.sortBy(jogosJogador.games,
+			function(e){
+				return -e.playtime_forever;
+			}
+		), 5);
+		jogosJogador.top_5 = maisJogados;
+
+		var dados =
+		{
+			"jogador": jogador,
+			"jogos": jogosJogador		
+		};	
+
+		response.render('jogador.hbs', dados);
+	}
+);
 
 // configurar qual templating engine usar. Sugestão: hbs (handlebars)
 //app.set('view engine', '???');

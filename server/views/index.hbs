@@ -18,6 +18,7 @@
         </div>
         <ul class="nav navbar-nav">
           <li class="active"><a href="/">Inicial <span class="sr-only">(current)</span></a></li>
+	  <li><a href="#" style="text-align:center;">Visualizações:<br><span class="badge">30</span></a></li>
         </ul>
       </div>
     </nav>
@@ -34,7 +35,7 @@
             <!-- O número grande é um id de cada jogador que provém de jogadores.json, campo steamid -->
             <a class="media-left media-middle" href="/jogador/76561198009353585/">
               <!-- A URL da foto do jogador provem de jogadores.json, do campo avatarmedium -->
-              <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/ad/ad54ca6eab0beebbb107da9adce8fd894be54318_medium.jpg" class="avatar">
+              <img src="{{avatarmedium}}" class="avatar">
             </a>
             <div class="media-body">
               <h3 class="media-heading">
@@ -49,7 +50,7 @@
                 <dt>País:</dt><dd>{{loccountrycode}}</dd>
                 <!-- A URL do perfil do jogador no Steam provém de jogadores.json, campo profileurl -->
                 <!-- O apelido do jogador provém de jogadores.json, campo personaname -->
-                <dt>Perfil no steam:</dt><dd><a href="{{profileurl}}">@{{personamame}}</a></dd>
+                <dt>Perfil no steam:</dt><dd><a href="{{profileurl}}">@{{personaname}}</a></dd>
               </dl>
             </div>
             <div class="player-card-link-container media-right media-bottom">

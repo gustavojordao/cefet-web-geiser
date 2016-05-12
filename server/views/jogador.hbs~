@@ -60,7 +60,7 @@
             <div class="media-body">
               <h4 class="media-heading">{{jogos.favorite.name}}</h4>
               <dl class="dl-horizontal">
-                <dt>Tempo de jogo:</dt><dd>{{jogos.favorite.playtime_forever_h}}h</dd>
+                <dt>Tempo de jogo:</dt><dd>{{jogos.favorite.playtime_forever}}h</dd>
                 <dt>Estatísticas completas:</dt><dd>http://steamcommunity.com/profiles/{{jogador.steamid}}/stats/{{jogos.favorite.appid}}</dd>
               </dl>
             </div>
@@ -88,7 +88,7 @@
                 <h4>{{name}}</h4>
               </div>
               <div class="media-right media-middle">
-                <span class="badge">{{playtime_forever_h}}h</span>
+                <span class="badge">{{playtime_forever}}h</span>
               </div>
             </li>
 	    {{/each}}
