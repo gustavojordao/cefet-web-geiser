@@ -1,5 +1,27 @@
+var fs = require('fs');
+
 var express = require('express'),
     app = express();
+
+var server = app.listen(3000,
+	function(){
+		var host = server.address().address;
+		var port = server.address().port;
+		console.log('Server started: http://%s:%s', host, port);
+	}
+);
+
+app.use(express.static('client'));
+
+/*app.get('server', 
+	function(request, response){
+		response.render('index.js');
+	}
+);*/
+
+app.set('view engine', 'hbs');
+
+app.set('views', 'server/views');
 
 // carregar "banco de dados" (data/jogadores.json e data/jogosPorJogador.json)
 // você pode colocar o conteúdo dos arquivos json no objeto "db" logo abaixo
@@ -7,9 +29,23 @@ var express = require('express'),
 var db = {
 };
 
+fs.readFile('server/data/jogadores.json',
+	function(data){
+		db = JSON.parse(data);
+	}
+);
+
+app.get('/', 
+	function(request, response){
+		response.render('index.hbs', db);
+	}
+);
+
+
 
 // configurar qual templating engine usar. Sugestão: hbs (handlebars)
 //app.set('view engine', '???');
+
 
 
 // EXERCÍCIO 2
